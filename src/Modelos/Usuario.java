@@ -5,6 +5,7 @@ public class Usuario {
     private String nombre;
     private String rol;
     private String contrasena;
+    private boolean activo;
     public Usuario() {};
     public Usuario(String nombre, String rol, String contrasena) {
         this.nombre = nombre;
@@ -40,5 +41,11 @@ public class Usuario {
     }
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+    public boolean isActivo() {
+        return activo;
+    }
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

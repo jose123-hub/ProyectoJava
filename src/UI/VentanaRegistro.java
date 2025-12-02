@@ -132,7 +132,7 @@ public class VentanaRegistro extends JFrame {
 
         form.add(lblContra);
         form.add(Box.createVerticalStrut(5));
-        form.add(pnlPassContainer); // Añadimos el contenedor compuesto
+        form.add(pnlPassContainer);
 
         form.add(Box.createVerticalStrut(40));
 
@@ -184,24 +184,30 @@ public class VentanaRegistro extends JFrame {
     private void registrar() {
         String nombre = txtNombre.getText().trim();
         String contrasena = new String(txtPassword.getPassword()).trim();
-
         if (nombre.isEmpty() || contrasena.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (contrasena.length() < 4) {
-            JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 4 caracteres.", "Seguridad", JOptionPane.WARNING_MESSAGE);
+        String patronSeguro = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
+        if (!contrasena.matches(patronSeguro)) {
+            JOptionPane.showMessageDialog(this,
+                    "<html>⚠️ <b>Contraseña Insegura</b><br><br>" +
+                            "Para su seguridad, la contraseña debe tener:<br>" +
+                            "• Mínimo <b>8 caracteres</b><br>" +
+                            "• Al menos <b>1 número</b><br>" +
+                            "• Al menos <b>1 letra Mayúscula</b></html>",
+                    "Seguridad Neon", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         boolean exito = service.registrar(nombre, contrasena);
-
         if (exito) {
             JOptionPane.showMessageDialog(this, "¡Cuenta creada con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            txtNombre.setText("");
+            txtPassword.setText("");
             new VentanaLogin(this.service).setVisible(true);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar. Usuario existente.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al registrar. El usuario podría ya existir.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -1,6 +1,7 @@
 package UI;
 import Modelos.Usuario;
 import Servicios.CarritoServicio;
+import Servicios.CompraServicio;
 import Servicios.ProductoServicio;
 import Servicios.UsuarioServicio;
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class VentanaCliente extends JFrame {
 
     private ProductoServicio productoServicio;
     private CarritoServicio carritoServicio;
+    private CompraServicio compraServicio;
 
     private static final Color NEON_BLUE = new Color(64, 192, 255);
     private static final Color DARK_BG = new Color(10, 10, 20);
@@ -26,6 +28,8 @@ public class VentanaCliente extends JFrame {
         this.usuarioActual = usuario;
         this.productoServicio = productoServicio;
         this.carritoServicio = carritoServicio;
+
+        this.compraServicio = new CompraServicio();
 
         setTitle("NEON TECH - PANEL CLIENTE");
         setSize(1280, 720);
@@ -40,18 +44,15 @@ public class VentanaCliente extends JFrame {
         panelCentral.setBackground(DARK_BG);
 
         panelCentral.add(new VentanaProductosCliente(usuarioActual, productoServicio, carritoServicio), "Productos");
+
         panelCentral.add(new VentanaCarrito(usuarioActual, carritoServicio), "Carrito");
 
-        JPanel panelHistorial = new JPanel();
-        panelHistorial.setBackground(DARK_BG);
-        JLabel lblHist = new JLabel("Historial de Compras (En Construcción)");
-        lblHist.setForeground(Color.WHITE);
-        panelHistorial.add(lblHist);
-        panelCentral.add(panelHistorial, "Historial");
+        panelCentral.add(new VentanaComprasCliente(usuarioActual, compraServicio), "Historial");
 
         add(panelCentral, BorderLayout.CENTER);
         setVisible(true);
     }
+
     private JPanel crearSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setPreferredSize(new Dimension(260, 0));
@@ -93,7 +94,6 @@ public class VentanaCliente extends JFrame {
             new VentanaLogin().setVisible(true);
             this.dispose();
         });
-
         sidebar.add(pnlPerfil);
         sidebar.add(Box.createVerticalStrut(20));
         sidebar.add(btnProd);
@@ -102,7 +102,6 @@ public class VentanaCliente extends JFrame {
         sidebar.add(Box.createVerticalGlue());
         sidebar.add(btnSalir);
         sidebar.add(Box.createVerticalStrut(20));
-
         return sidebar;
     }
 

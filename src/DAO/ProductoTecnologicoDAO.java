@@ -9,4 +9,6 @@ public interface ProductoTecnologicoDAO {
     List<ProductoTecnologico> listarProductosDisponibles();
 
     boolean actualizar(ProductoTecnologico p);
+    void restarStock(int idProducto, int cantidad);
+    List<ProductoTecnologico> buscarPorNombre(String texto);
 }

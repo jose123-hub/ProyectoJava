@@ -36,7 +36,7 @@ public class VentanaCarrito extends JPanel {
 
         setLayout(new BorderLayout());
         setBackground(DARK_BG);
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Margen externo
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         inicializarComponentes();
 
@@ -91,7 +91,7 @@ public class VentanaCarrito extends JPanel {
 
         lblTotal = new JLabel("TOTAL: S/. 0.00");
         lblTotal.setFont(new Font("Consolas", Font.BOLD, 22));
-        lblTotal.setForeground(Color.GREEN); // Verde para dinero
+        lblTotal.setForeground(Color.GREEN);
 
         JPanel pnlBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlBotones.setBackground(DARK_BG);
@@ -148,19 +148,34 @@ public class VentanaCarrito extends JPanel {
     }
 
     private void realizarCompra() {
-        if (carritoServicio.getCarrito().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El carrito está vacío.", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
+        if (carritoServicio.getCarrito().isEmpty()) return;
+        StringBuilder ticket = new StringBuilder();
+        ticket.append("--------------------------------\n");
+        ticket.append("      NEON TECH STORE      \n");
+        ticket.append("--------------------------------\n\n");
+        ticket.append("Cliente: ").append(usuario.getNombre()).append("\n");
+        ticket.append("Fecha: ").append(java.time.LocalDate.now()).append("\n\n");
+        ticket.append("PRODUCTOS:\n");
+        double total = 0;
+        for (DetalleCompra d : carritoServicio.getCarrito()) {
+            double sub = d.getCantidad() * d.getPrecioUnitario();
+            total += sub;
+            ticket.append(String.format("- Prod ID %d (x%d) ..... $%.2f\n", d.getIdProducto(), d.getCantidad(), sub));
+            new DAO.ProductoTecDAOImple().restarStock(d.getIdProducto(), d.getCantidad());
         }
-
+        ticket.append("\n--------------------------------\n");
+        ticket.append(String.format("TOTAL PAGADO: $%.2f\n", total));
+        ticket.append("--------------------------------\n");
+        ticket.append("¡Gracias por su compra!");
         boolean exito = compraServicio.procesarCompra(usuario.getId(), carritoServicio.getCarrito());
-
         if (exito) {
-            JOptionPane.showMessageDialog(this, "¡Compra realizada con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JTextArea area = new JTextArea(ticket.toString());
+            area.setBackground(new Color(10,10,20));
+            area.setForeground(Color.CYAN);
+            area.setFont(new Font("Monospaced", Font.BOLD, 12));
+            JOptionPane.showMessageDialog(this, new JScrollPane(area), "TICKET DE COMPRA", JOptionPane.PLAIN_MESSAGE);
             carritoServicio.limpiarCarrito();
             cargarTabla();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al procesar la compra en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

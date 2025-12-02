@@ -1,6 +1,10 @@
 package DAO;
 import Modelos.Usuario;
+import java.util.List;
+
 public interface UsuarioDAO {
-    public abstract Usuario login(String nombre, String contrasena);
-    public abstract boolean registrar(Usuario usuario);
+    Usuario login(String nombre, String contrasena);
+    boolean registrar(Usuario usuario);
+    boolean cambiarEstadoUsuario(int idUsuario, boolean activo);
+    List<Usuario> listarTodos();
 }

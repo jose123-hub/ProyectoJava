@@ -172,7 +172,7 @@ public class VentanaLogin extends JFrame {
         JOptionPane.showMessageDialog(this, "Bienvenido " + u.getNombre(), "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
 
         if ("Admin".equalsIgnoreCase(u.getRol())) {
-             new VentanaAdmin(new ProductoServicio(), new CompraServicio()).setVisible(true);
+             new VentanaAdmin(new ProductoServicio(), new CompraServicio(), u).setVisible(true);
         } else {
             new VentanaCliente(new ProductoServicio(), new CarritoServicio(), u).setVisible(true);
         }

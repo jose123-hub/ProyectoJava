@@ -5,8 +5,14 @@ import java.util.List;
 
 public class CarritoServicio {
     private static List<DetalleCompra> carrito = new ArrayList<>();
-    public void agregarProducto(int idProducto, int cantidad, double precio) {
-        carrito.add(new DetalleCompra(idProducto, cantidad, precio));
+    public void agregarProducto(DetalleCompra nuevoDetalle) {
+        for (DetalleCompra item : carrito) {
+            if (item.getIdProducto() == nuevoDetalle.getIdProducto()) {
+                item.setCantidad(item.getCantidad() + nuevoDetalle.getCantidad());
+                return;
+            }
+        }
+        carrito.add(nuevoDetalle);
     }
     public void eliminarProducto(int idProducto) {
         carrito.removeIf(item -> item.getIdProducto() == idProducto);
