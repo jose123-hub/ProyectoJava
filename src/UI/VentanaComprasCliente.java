@@ -3,7 +3,6 @@ import Modelos.Compra;
 import Modelos.DetalleCompra;
 import Modelos.Usuario;
 import Servicios.CompraServicio;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -77,7 +76,7 @@ public class VentanaComprasCliente extends JPanel {
             modeloTabla.addRow(new Object[]{
                     c.getId(),
                     c.getFecha().toString(),
-                    String.format("$ %.2f", c.getTotal())
+                    String.format("$ %.2f", c.getTotal()),
             });
         }
     }

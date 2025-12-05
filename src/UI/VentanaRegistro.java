@@ -110,12 +110,12 @@ public class VentanaRegistro extends JFrame {
 
         JButton btnRegistrar = new JButton("REGISTRAR");
         configurarBotonNeon(btnRegistrar, true);
-        btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrado
+        btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRegistrar.addActionListener(e -> registrar());
 
         JButton btnVolver = new JButton("VOLVER AL LOGIN");
         configurarBotonNeon(btnVolver, false);
-        btnVolver.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrado
+        btnVolver.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnVolver.addActionListener(e -> {
             new VentanaLogin(this.service).setVisible(true);
             this.dispose();

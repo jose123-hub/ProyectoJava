@@ -135,7 +135,6 @@ public class VentanaAdmin extends JFrame {
         return panel;
     }
 
-    // --- MÉTODOS VISUALES ---
     private JButton crearBoton(String texto) {
         JButton btn = new JButton(texto);
         btn.setFont(FONT_NEON);
@@ -163,7 +162,6 @@ public class VentanaAdmin extends JFrame {
         tabla.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, colorNeon));
     }
 
-    // --- LÓGICA CRUD ---
     private void cargarProductos() {
         modeloProductos.setRowCount(0);
         List<ProductoTecnologico> lista = productoServicio.listarProductos();

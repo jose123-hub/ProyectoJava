@@ -11,7 +11,6 @@ import java.util.List;
 public class DetalleCompraDAOImple implements DetalleCompraDAO {
     @Override
     public void registrarDetalle(int idCompra, DetalleCompra det) {
-        // Asegúrate que los nombres de columnas coincidan con tu BD
         String sql = "INSERT INTO detalle_compra(idCompra, idProducto, cantidad, precioUnitario) VALUES (?, ?, ?, ?)";
         try (Connection conn = Conexión.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -54,7 +54,7 @@ public class VentanaLogin extends JFrame {
         JLabel lblAppTitle = new JLabel("NEON TECH");
         lblAppTitle.setFont(NEON_TITLE_FONT);
         lblAppTitle.setForeground(NEON_BLUE);
-        lblAppTitle.setAlignmentX(Component.CENTER_ALIGNMENT); // Correcto
+        lblAppTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         panelHeader.add(lblIcono);
         panelHeader.add(lblAppTitle);
@@ -110,14 +110,14 @@ public class VentanaLogin extends JFrame {
         form.add(Box.createVerticalStrut(20));
 
         form.add(lblNombre);
-        form.add(Box.createVerticalStrut(5)); // Pequeño espacio entre label y campo
+        form.add(Box.createVerticalStrut(5));
         form.add(txtNombre);
         form.add(Box.createVerticalStrut(20));
 
         form.add(lblPass);
         form.add(Box.createVerticalStrut(5));
         form.add(txtPassword);
-        form.add(Box.createVerticalStrut(30)); // Más espacio antes de los botones
+        form.add(Box.createVerticalStrut(30));
 
         form.add(pnlBotones);
 

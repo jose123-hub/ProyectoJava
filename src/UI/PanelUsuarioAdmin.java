@@ -12,11 +12,8 @@ import java.util.List;
 public class PanelUsuarioAdmin extends JPanel {
     private JTable tablaUsuarios, tablaCompras;
     private DefaultTableModel modeloUsuarios, modeloCompras;
-
     private UsuarioDAOImplementacion usuarioDAO = new UsuarioDAOImplementacion();
     private CompraDAOImplementacion compraDAO = new CompraDAOImplementacion();
-
-    // --- PALETA NEON ---
     private static final Color DARK_BG = new Color(10, 10, 20);
     private static final Color PANEL_BG = new Color(20, 20, 35);
     private static final Color NEON_CYAN = new Color(0, 255, 255);
@@ -30,7 +27,6 @@ public class PanelUsuarioAdmin extends JPanel {
         setBackground(DARK_BG);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // --- PANEL IZQUIERDO: USUARIOS ---
         JPanel pnlIzq = new JPanel(new BorderLayout());
         pnlIzq.setBackground(DARK_BG);
 
@@ -46,13 +42,11 @@ public class PanelUsuarioAdmin extends JPanel {
         tablaUsuarios = new JTable(modeloUsuarios);
         estilizarTablaNeon(tablaUsuarios, NEON_RED);
 
-        // 🚨 AQUÍ ESTABA EL ERROR DEL BOTÓN BLANCO 🚨
         JButton btnBloquear = new JButton("🚫 BLOQUEAR / DESBLOQUEAR");
         btnBloquear.setFont(new Font("Consolas", Font.BOLD, 14));
         btnBloquear.setBackground(NEON_RED);
         btnBloquear.setForeground(Color.WHITE);
         btnBloquear.setFocusPainted(false);
-        // Estas 2 líneas arreglan el problema de que se vea blanco:
         btnBloquear.setContentAreaFilled(false);
         btnBloquear.setOpaque(true);
         btnBloquear.setBorder(BorderFactory.createCompoundBorder(
@@ -64,7 +58,6 @@ public class PanelUsuarioAdmin extends JPanel {
         pnlIzq.add(new JScrollPane(tablaUsuarios), BorderLayout.CENTER);
         pnlIzq.add(btnBloquear, BorderLayout.SOUTH);
 
-        // --- PANEL DERECHO: COMPRAS ---
         JPanel pnlDer = new JPanel(new BorderLayout());
         pnlDer.setBackground(DARK_BG);
 
@@ -74,24 +67,21 @@ public class PanelUsuarioAdmin extends JPanel {
         bordeDer.setTitleFont(FONT_TITLE);
         pnlDer.setBorder(bordeDer);
 
-        modeloCompras = new DefaultTableModel(new Object[]{"ID Compra", "Total Pagado"}, 0);
+        modeloCompras = new DefaultTableModel(new Object[]{"ID Compra", "Total Pagado", "Fecha"}, 0);
         tablaCompras = new JTable(modeloCompras);
         estilizarTablaNeon(tablaCompras, NEON_CYAN);
 
         pnlDer.add(new JScrollPane(tablaCompras), BorderLayout.CENTER);
 
-        // Eventos
         tablaUsuarios.getSelectionModel().addListSelectionListener(e -> cargarCompras());
 
         add(pnlIzq);
         add(pnlDer);
-
         cargarUsuarios();
         pintarScrolls(pnlIzq);
         pintarScrolls(pnlDer);
     }
 
-    // --- MÉTODOS VISUALES ---
     private void estilizarTablaNeon(JTable tabla, Color colorNeon) {
         tabla.setBackground(PANEL_BG);
         tabla.setForeground(TEXT_WHITE);
@@ -103,7 +93,6 @@ public class PanelUsuarioAdmin extends JPanel {
         tabla.setShowVerticalLines(false);
         tabla.setGridColor(new Color(50, 50, 70));
 
-        // Encabezado
         tabla.getTableHeader().setBackground(new Color(30, 30, 50));
         tabla.getTableHeader().setForeground(colorNeon);
         tabla.getTableHeader().setFont(FONT_TITLE);
@@ -114,7 +103,6 @@ public class PanelUsuarioAdmin extends JPanel {
         for (Component c : panel.getComponents()) {
             if (c instanceof JScrollPane) {
                 JScrollPane scroll = (JScrollPane) c;
-                // Esto asegura que el fondo detrás de la tabla sea negro y no blanco
                 scroll.getViewport().setBackground(DARK_BG);
                 scroll.setBackground(DARK_BG);
                 scroll.setBorder(null);
@@ -122,7 +110,6 @@ public class PanelUsuarioAdmin extends JPanel {
         }
     }
 
-    // --- LÓGICA DE DATOS ---
     private void cargarUsuarios() {
         modeloUsuarios.setRowCount(0);
         List<Usuario> lista = usuarioDAO.listarTodos();
@@ -143,7 +130,7 @@ public class PanelUsuarioAdmin extends JPanel {
         List<Compra> lista = compraDAO.listarComprasPorUsuario(idUser);
 
         for(Compra c : lista) {
-            modeloCompras.addRow(new Object[]{c.getId(), "$" + c.getTotal()});
+            modeloCompras.addRow(new Object[]{c.getId(), "$" + c.getTotal(), c.getFecha()});
         }
     }
 
